@@ -1,102 +1,153 @@
-# Ubuntu 仿苹果中文输入法
+# ubuntu-macos-ime
 
-用 **Fcitx5 + Rime + 雾凇拼音 + macOS 皮肤** 在 Ubuntu 上获得接近 macOS 的中文输入体验（外观、打字手感、词库准确度）。无需自研输入法。
+[English](README.md) | [简体中文](README.zh-CN.md)
 
-## 一键安装
+![Ubuntu](https://img.shields.io/badge/Ubuntu-22.04%20%2F%2024.04-E95420?logo=ubuntu&logoColor=white)
+![Linux](https://img.shields.io/badge/Linux-GNOME-FCC624?logo=linux&logoColor=black)
+![Fcitx5](https://img.shields.io/badge/Fcitx5-IME-2ea44f)
+![Rime](https://img.shields.io/badge/Rime-中州韵-1f6feb)
+![rime-ice](https://img.shields.io/badge/rime--ice-雾凇拼音-0A84FF)
+![Style](https://img.shields.io/badge/Style-macOS--like-000000?logo=apple&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+
+**One-command Apple-like Chinese IME for Ubuntu.**
+
+Turn Ubuntu into a macOS-like Chinese typing setup with [Fcitx5](https://fcitx-im.org/) + [Rime](https://rime.im/) + [rime-ice (雾凇拼音)](https://github.com/iDvel/rime-ice) — no proprietary IME, no ads, fully local.
+
+| | |
+|---|---|
+| **OS** | Ubuntu 22.04 / 24.04 (GNOME) |
+| **Stack** | Fcitx5 · Rime · rime-ice |
+| **Look** | Light rounded candidate bar · tray `拼` (filled) / `A` (outline) |
+| **License** | MIT |
+
+---
+
+## Why
+
+Default Ubuntu Chinese input often feels clumsy: weak dictionaries, awkward switching, or heavy third-party clients. This project wires mature open-source pieces into one installer so you get:
+
+- Modern vocabulary via **rime-ice**
+- Quiet **Shift** Chinese/English switch (no noisy OSD)
+- Candidate UI close to macOS (light panel + blue highlight)
+- Menu-bar style tray icons: **拼** filled · **A** outlined
+
+## Quick start
 
 ```bash
+git clone https://github.com/RainHater/ubuntu-macos-ime.git
+cd ubuntu-macos-ime
 chmod +x scripts/install-apple-like-ime.sh
 ./scripts/install-apple-like-ime.sh
 ```
 
-脚本会：
+Then **log out and log back in** once so environment variables and `im-config` take effect.
 
-1. 安装 Fcitx5 / Rime / Lua 插件等依赖
-2. 在 **Ubuntu 22.04** 上自动启用 [fcitx5-qt-backport PPA](https://launchpad.net/~hrzhu/+archive/ubuntu/fcitx5-qt-backport)，将 librime 升到 ≥ 1.8.5（雾凇要求）
-3. 将默认输入法框架设为 `fcitx5`
-4. 写入会话环境变量
-5. 部署 [雾凇拼音 (rime-ice)](https://github.com/iDvel/rime-ice)
-6. 候选栏使用 `Material-Color-blue`（稳定、无白边）
-7. 状态栏图标：中文 `拼`（实心圆角框）、英文 `A`（空心描边框）
-8. 横向候选、行内预编辑、Shift 中英切换、每页 9 个候选
+### What the installer does
 
-## 安装后必做
+1. Installs Fcitx5, Rime, Lua plugins, CJK fonts
+2. On **Ubuntu 22.04**, enables [fcitx5-qt-backport PPA](https://launchpad.net/~hrzhu/+archive/ubuntu/fcitx5-qt-backport) so `librime` ≥ 1.8.5 (required by rime-ice)
+3. Sets the IM framework to `fcitx5` via `im-config`
+4. Writes session env vars (`GTK_IM_MODULE`, `QT_IM_MODULE`, …)
+5. Clones / updates [rime-ice](https://github.com/iDvel/rime-ice)
+6. Installs the `macOS-ime` candidate theme (light gray + blue selection)
+7. Generates tray icons: **拼** (filled squircle) / **A** (outline squircle)
+8. Configures Shift for in-Rime 拼/A switching (not scheme hopping)
 
-1. **注销并重新登录**（环境变量与 `im-config` 才生效）
-2. 托盘键盘图标右键 → **部署 (Deploy)**（首次 10–30 秒）
-3. `Ctrl + Space` 切到 Rime；按 `F4` 确认方案为「雾凇拼音」
-4. 用 `Shift` 临时切换中英文
-5. 可选验证 Lua：输入 `rq`，应出现当前日期
+## After install
 
-## 验证清单
+1. Log out → log in
+2. Tray → right-click Fcitx → **Deploy** (first time ~10–30s)
+3. `Ctrl + Space` → select **Rime**
+4. `F4` → confirm **雾凇拼音** (rime-ice)
+5. `Shift` toggles **拼** / **A**
+6. Optional Lua check: type `rq` → today’s date
 
-- [ ] Chrome / VS Code / 终端能输入中文
-- [ ] 候选栏为 macOS 浅色横向样式
-- [ ] Shift 可切中英；长句联想正常
-- [ ] `F4` 可见「雾凇拼音」
-- [ ] 输入 `rq` 能出日期（说明 librime-lua 正常）
+### Checklist
 
-## 常用调整
+- [ ] Chinese works in Chrome / VS Code / terminal
+- [ ] Candidate bar is light, horizontal, blue highlight
+- [ ] Shift switches 拼 ↔ A without popping “en / 雾”
+- [ ] `F4` shows 雾凇拼音
+- [ ] `rq` expands to a date (librime-lua OK)
 
-### 候选栏主题
+## Usage tips
 
-默认 `Material-Color-blue`。若仍想用仿 macOS 皮肤，可在 `~/.config/fcitx5/conf/classicui.conf` 改 `Theme=`，然后 `fcitx5-remote -r`。
+| Action | Shortcut |
+|--------|----------|
+| Switch IM | `Ctrl + Space` |
+| Chinese ↔ English inside Rime | `Shift` |
+| Schema menu | `F4` |
+| Open config UI | `fcitx5-configtool` |
 
-### 状态栏 拼 / A
+### Update rime-ice dictionaries
 
-由自定义托盘图标（`scripts/make-macos-tray-icons.py`）与 `rime_ice.custom.yaml` 的 `switches/@0/states: [ 拼, A ]` 控制：`拼` 为实心圆角框，`A` 为空心描边框。`Shift` 切换中英时托盘应在两者间变化。若托盘仍是键盘图标，确认已注销重登，且 GNOME 扩展 `ubuntu-appindicators` 已启用。
+```bash
+git -C ~/.local/share/fcitx5/rime pull
+fcitx5-remote -r
+# or tray → Deploy
+```
 
-### 终端 TUI 看不到拼音字母
+User patches in `*.custom.yaml` are kept across pulls.
 
-行内预编辑在 vim 等全屏程序里可能被覆盖。改为浮窗显示：
+### Terminal TUI (vim, …) hides preedit
+
+Inline preedit can vanish in fullscreen TUI apps. Use the floating panel instead:
 
 ```bash
 echo 'PreeditInApplication=False' > ~/.config/fcitx5/conf/rime.conf
 fcitx5-remote -r
 ```
 
-### 更新雾凇词库
+### Regenerate tray icons
 
 ```bash
-git -C ~/.local/share/fcitx5/rime pull
-fcitx5-remote -r
-# 或托盘右键「部署」
+python3 scripts/make-macos-tray-icons.py
+# then restart fcitx5 or toggle the AppIndicator extension
 ```
 
-用户覆盖写在 `~/.local/share/fcitx5/rime/default.custom.yaml`，不会被 `git pull` 冲掉。
-
-### 图形配置
-
-```bash
-fcitx5-configtool
-```
-
-## 架构
+## Architecture
 
 ```
-应用 → Fcitx5 → Rime → 雾凇拼音词库
-              ↘ Material-Color-blue 候选栏 + 托盘「拼/A」
+Apps → Fcitx5 → Rime → rime-ice lexicon
+                 ↘ macOS-ime theme + tray 拼 / A
 ```
 
-## 关键文件位置
+## Config paths
 
-| 用途 | 路径 |
-|------|------|
-| 雾凇配置 / 词库 | `~/.local/share/fcitx5/rime/` |
-| 用户覆盖 | `~/.local/share/fcitx5/rime/default.custom.yaml` |
-| 外观 / 托盘文字 | `~/.config/fcitx5/conf/classicui.conf` |
-| 拼/A 状态名 | `~/.local/share/fcitx5/rime/rime_ice.custom.yaml` |
-| 预编辑 | `~/.config/fcitx5/conf/rime.conf` |
-| 环境变量 | `~/.config/environment.d/fcitx5.conf` |
+| Purpose | Path |
+|---------|------|
+| rime-ice + user data | `~/.local/share/fcitx5/rime/` |
+| User patches | `~/.local/share/fcitx5/rime/*.custom.yaml` |
+| UI / tray | `~/.config/fcitx5/conf/classicui.conf` |
+| Preedit | `~/.config/fcitx5/conf/rime.conf` |
+| Session env | `~/.config/environment.d/fcitx5.conf` |
+| Candidate theme | `~/.local/share/fcitx5/themes/macOS-ime/` |
 
-## 已知限制
+## Requirements
 
-- **GNOME Wayland** 下部分系统 GTK4 应用可能无法用第三方输入法；X11 会话通常无此问题。
-- 不要同时启用 IBus 与 Fcitx5 作为活动框架，以免冲突。
-- Ubuntu 22.04 必须用较新的 librime；脚本已处理。若不用脚本，请自行添加上述 PPA，或改用 Flatpak 版 Fcitx5。
+- Ubuntu **22.04** or **24.04** (other Debian-based distros may work with tweaks)
+- `sudo`, network (apt + git clone rime-ice)
+- GNOME AppIndicator extension recommended for the tray icons
 
-## 参考
+## Known limitations
 
-- [iDvel/rime-ice](https://github.com/iDvel/rime-ice)
-- [thep0y/fcitx5-themes-candlelight](https://github.com/thep0y/fcitx5-themes-candlelight)
-- [Fcitx5 Wayland 说明](https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland)
+- On **GNOME Wayland**, some system GTK4 apps still refuse third-party IMs; an X11 session is usually fine.
+- Do not run **IBus** and **Fcitx5** as active frameworks at the same time.
+- A full “zero reboot / zero logout” install is impossible: already-running GUI apps have already read `*_IM_MODULE`. One logout (or reboot) is required.
+- Tray “Deploy” still needs one click on first install unless you run deploy manually — we aim to automate this further.
+
+## Contributing
+
+Issues and PRs are welcome — bug reports, Ubuntu version notes, theme tweaks, and install-script hardening especially.
+
+## Credits
+
+- [iDvel/rime-ice](https://github.com/iDvel/rime-ice) — modern Chinese lexicon
+- [Fcitx5](https://github.com/fcitx/fcitx5) / [fcitx5-rime](https://github.com/fcitx/fcitx5-rime)
+- Theme ideas inspired by community macOS-style Fcitx5 skins (e.g. [fcitx5-themes-candlelight](https://github.com/thep0y/fcitx5-themes-candlelight))
+- [Using Fcitx 5 on Wayland](https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland)
+
+## License
+
+[MIT](LICENSE)
