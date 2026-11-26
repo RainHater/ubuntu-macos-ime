@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Render macOS-like menu-bar 拼 / ABC icons for fcitx5-rime tray.
+"""Render macOS-like menu-bar 拼 / A icons for fcitx5-rime tray.
 
 拼 = filled light squircle + dark glyph
-ABC = outlined (unfilled) squircle frame + light glyph
+A   = outlined (unfilled) squircle frame + light glyph
 """
 import base64
 import io
@@ -92,7 +92,7 @@ def main():
     specs = [
         ('fcitx-rime', '拼', True, 'Noto Sans CJK SC'),
         ('fcitx-rime-im', '拼', True, 'Noto Sans CJK SC'),
-        ('fcitx-rime-latin', 'ABC', False, 'Inter'),
+        ('fcitx-rime-latin', 'A', False, 'Inter'),
     ]
     tmp = Path('/tmp/macos-tray-icons')
     for name, text, filled, font in specs:

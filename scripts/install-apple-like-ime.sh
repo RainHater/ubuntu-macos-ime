@@ -103,7 +103,7 @@ EOF
 cat > "${RIME_DIR}/rime_ice.custom.yaml" <<'EOF'
 patch:
   schema/name: "拼"
-  switches/@0/states: [ 拼, ABC ]
+  switches/@0/states: [ 拼, A ]
 EOF
 
 mkdir -p "${HOME}/.local/share/fcitx5/inputmethod"
@@ -253,7 +253,7 @@ MenuFont="Noto Sans CJK SC Medium 12"
 TrayFont="MacIMTray Medium 13"
 TrayOutlineColor=#00000000
 TrayTextColor=#f5f5f7
-# False: use custom 拼/ABC icons (PreferTextIcon would force latin to "A")
+# False: use custom 拼/A icons (PreferTextIcon would also force latin to "A")
 PreferTextIcon=False
 ShowLayoutNameInIcon=False
 UseInputMethodLangaugeToDisplayText=True
